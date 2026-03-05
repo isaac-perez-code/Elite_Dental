@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}Citas - Elite Dental{% endblock %}
+
+{% block content %}
+<div class="section">
+    <h2>Gestión de Citas</h2>
+    
+    <form class="form-card" action="{{ url_for('nueva_cita') }}" method="POST">
+        <h3>Nueva Cita</h3>
+        <div class="form-group">
+            <label>
+                Paciente
+                <select name="paciente_id" required>
+                    <option value="">Seleccionar paciente</option>
+                    {% for p in pacientes %}
+                    <option value="{{ p.id }}">{{ p.nombre }} {{ p.apellido }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+        </div>
+        <div class="form-group">
+            <label>
+                Fecha
+                <input type="date" name="fecha" required>
+            </label>
+            <label>
+                Hora
+                <input type="time" name="hora" required>
+            </label>
+        </div>
+        <div class="form-group">
+            <label>
+                Motivo
+                <input type="text" name="motivo" placeholder="Motivo de consulta" required>
+            </label>
+        </div>
+        <button type="submit" class="btn btn-primary">Agendar Cita</button>
+    </form>
+    
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Paciente</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Motivo</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in citas %}
+            <tr>
+                <td>{{ c.id }}</td>
+                <td>{{ c.paciente.nombre }} {{ c.paciente.apellido }}</td>
+                <td>{{ c.fecha }}</td>
+                <td>{{ c.hora }}</td>
+                <td>{{ c.motivo }}</td>
+                <td><span class="estado {{ c.estado.lower() }}">{{ c.estado }}</span></td>
+                <td>
+                    {% if c.estado == 'Pendiente' %}
+                    <a href="{{ url_for('completar_cita', id=c.id) }}" class="btn btn-success">Completar</a>
+                    <a href="{{ url_for('cancelar_cita', id=c.id) }}" class="btn btn-warning">Cancelar</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard">
+    <h2>Dashboard</h2>
+    
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>Total Pacientes</h3>
+            <p class="number">{{ total_pacientes }}</p>
+        </div>
+        <div class="stat-card">
+            <h3>Total Citas</h3>
+            <p class="number">{{ total_citas }}</p>
+        </div>
+        <div class="stat-card">
+            <h3>Citas Hoy</h3>
+            <p class="number">{{ citas_hoy }}</p>
+        </div>
+    </div>
+    
+    {% if grafico %}
+    <div class="grafico">
+        <h3>Estadísticas de Citas</h3>
+        <img src="data:image/png;base64,{{ grafico }}" alt="Gráfico de citas">
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
